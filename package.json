@@ -16,7 +16,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/koa-logger": "^3.1.1",
     "@types/mongoose": "^5.10.5",
-    "dotenv": "^9.0.0",
+    "dotenv": "^9.0.1",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-logger": "^3.2.1",

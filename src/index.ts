@@ -1,10 +1,13 @@
+import 'dotenv/config';
+
 import Koa from 'koa';
 import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import logger from 'koa-logger';
 import mongoose from 'mongoose';
+import cors from 'koa2-cors';
 
-const PORT = 4000;
+const PORT = process.env.PORT;
 
 (async function () {
   const app = new Koa();
@@ -21,6 +24,7 @@ const PORT = 4000;
     ctx.body = 'ponss';
   });
 
+  app.use(cors({ origin: '*' }));
   app.use(bodyParser());
   app.use(logger());
   app.use(router.routes());
