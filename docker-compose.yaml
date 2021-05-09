@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    restart: unless-stopped
+    volumes:
+      - .:/usr/app
+    container_name: agitile-server
+    expose:
+      - '4000'
+    ports:
+      - '4000:4000'
+    command: npm run dev
+
+  mongo:
+    container_name: mongo
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    image: mongo
+    ports:
+      - '27017:27017'
+
+volumes:
+  mongo-data:

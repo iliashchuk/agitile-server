@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "ignore": [],
+  "watch": ["build/**/*"],
+  "signal": "SIGINT",
+  "legacy-watch": true
+}
