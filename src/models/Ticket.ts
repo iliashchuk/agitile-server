@@ -1,4 +1,5 @@
-import mongoose, { Schema, Types, Document, Model } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
+
 export enum TicketType {
   Story = 'Story',
   Task = 'Task',
@@ -12,6 +13,12 @@ export enum TicketStatus {
   Done = 'Done',
 }
 
+export interface Subtask {
+  _id: string;
+  name: string;
+  isCompleted: boolean;
+}
+
 export interface Ticket {
   name: string;
   status: TicketStatus;
@@ -21,21 +28,19 @@ export interface Ticket {
   assignee?: string;
 }
 
-export interface Subtask {
-  name: string;
-  isCompleted: boolean;
-}
-
 const SubtaskSchema = new Schema({
+  _id: String,
   name: { type: String, required: true },
   isCompleted: { type: Boolean, default: true },
 });
 
-// Export this for strong typing
-export interface TicketDocument extends Ticket, Document {}
+export interface TicketDocument extends Ticket, Document {
+  _id: string;
+}
 interface TicketModel extends Model<TicketDocument> {}
 
 export const TicketSchema = new Schema<TicketDocument, TicketModel>({
+  _id: String,
   name: { type: String, required: true },
   status: {
     type: String,

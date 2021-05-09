@@ -6,7 +6,7 @@ import logger from 'koa-logger';
 import mongoose from 'mongoose';
 import cors from 'koa2-cors';
 
-import { router } from './resolvers';
+import router from './router';
 
 const PORT = process.env.PORT;
 
@@ -20,10 +20,6 @@ const PORT = process.env.PORT;
     .then(() => console.log('MongoDB Connected'))
     .catch((err) => console.log(err));
 
-  router.get('/ping', async (ctx) => {
-    ctx.body = 'pong';
-  });
-
   app.use(cors({ origin: '*' }));
   app.use(bodyParser());
   app.use(logger());
@@ -32,8 +28,6 @@ const PORT = process.env.PORT;
     try {
       await next();
     } catch (e) {
-      console.log(e);
-
       ctx.status = e.status;
       ctx.body = e;
     }

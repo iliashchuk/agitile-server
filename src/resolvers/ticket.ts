@@ -1,4 +1,5 @@
 import { IMiddleware } from 'koa-router';
+import { generateId } from '../utils/id';
 
 import { TicketModel, Ticket } from '../models';
 
@@ -12,6 +13,12 @@ export const createTicket: IMiddleware = async (ctx) => {
     ctx.throw(400, error);
   }
 
+  ticket._id = await generateId();
+  if (ticket.subtasks) {
+    for (const subtask of ticket.subtasks) {
+      subtask._id = await generateId();
+    }
+  }
   ctx.body = await ticket.save();
 };
 
