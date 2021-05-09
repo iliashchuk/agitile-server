@@ -20,6 +20,7 @@ export interface Subtask {
 }
 
 export interface Ticket {
+  _id?: string;
   name: string;
   status: TicketStatus;
   type: TicketType;
@@ -34,7 +35,7 @@ const SubtaskSchema = new Schema({
   isCompleted: { type: Boolean, default: true },
 });
 
-export interface TicketDocument extends Ticket, Document {
+export interface TicketDocument extends Ticket, Document<string> {
   _id: string;
 }
 interface TicketModel extends Model<TicketDocument> {}

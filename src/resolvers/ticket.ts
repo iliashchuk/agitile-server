@@ -1,12 +1,16 @@
 import { IMiddleware } from 'koa-router';
-import { generateId } from '../utils/id';
 
+import { generateId } from '../utils/id';
 import { TicketModel, Ticket } from '../models';
 
-export const createTicket: IMiddleware = async (ctx) => {
-  const ticketData = <Ticket>ctx.request.body;
+export const getTickets: IMiddleware = async (ctx) => {
+  ctx.body = await TicketModel.find();
+};
 
-  const ticket = new TicketModel(ticketData);
+export const createTicket: IMiddleware = async (ctx) => {
+  const ticketInput = <Ticket>ctx.request.body;
+
+  const ticket = new TicketModel(ticketInput);
   try {
     await ticket.validate();
   } catch (error) {
@@ -22,6 +26,10 @@ export const createTicket: IMiddleware = async (ctx) => {
   ctx.body = await ticket.save();
 };
 
-export const getTickets: IMiddleware = async (ctx) => {
-  ctx.body = await TicketModel.find();
+export const updateTicket: IMiddleware = async (ctx, next) => {
+  const ticketInput = <Ticket>ctx.request.body;
+
+  ctx.body = await TicketModel.findByIdAndUpdate(ticketInput._id, ticketInput, {
+    new: true,
+  });
 };
