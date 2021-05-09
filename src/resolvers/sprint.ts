@@ -3,20 +3,20 @@ import { IMiddleware } from 'koa-router';
 import { SprintModel, Sprint } from '../models/Sprint';
 
 export const getSprints: IMiddleware = async (ctx) => {
-  ctx.body = await SprintModel.find().populate('tickets');
+  ctx.body = await SprintModel.find();
+  // ctx.body = await SprintModel.find().populate('tickets');
 };
 
 export const createSprint: IMiddleware = async (ctx) => {
   const sprintInput = <Sprint>ctx.request.body;
 
-  const sprint = new SprintModel(sprintInput);
   try {
+    const sprint = new SprintModel(sprintInput);
     await sprint.validate();
+    ctx.body = await sprint.save();
   } catch (error) {
     ctx.throw(400, error);
   }
-
-  ctx.body = await sprint.save();
 };
 
 export const updateSprint: IMiddleware = async (ctx, next) => {

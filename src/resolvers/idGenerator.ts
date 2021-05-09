@@ -1,6 +1,6 @@
 import { IMiddleware } from 'koa-router';
 
-import { generateId, setIdPrefix } from '../utils/id';
+import { generateId, setIdPrefix, getGeneratorPrefix } from '../utils/id';
 
 export const updateIdPrefix: IMiddleware = async (ctx) => {
   const { prefix } = ctx.request.body;
@@ -13,4 +13,8 @@ export const updateIdPrefix: IMiddleware = async (ctx) => {
 
 export const getGeneratedId: IMiddleware = async (ctx) => {
   ctx.body = await generateId();
+};
+
+export const getIdPrefix: IMiddleware = async (ctx) => {
+  ctx.body = await getGeneratorPrefix();
 };

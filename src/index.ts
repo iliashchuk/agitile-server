@@ -28,7 +28,8 @@ const PORT = process.env.PORT;
     try {
       await next();
     } catch (e) {
-      ctx.status = e.status;
+      console.log(e);
+      ctx.status = typeof e.status === 'number' ? e.status : 500;
       ctx.body = e;
     }
   });

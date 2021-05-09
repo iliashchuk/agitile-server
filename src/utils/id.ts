@@ -58,3 +58,5 @@ export const setIdPrefix = async (prefix: string) => {
 };
 
 export const generateId = async () => (await idGenerator).generateId();
+
+export const getGeneratorPrefix = async () => (await idGenerator).prefix;
