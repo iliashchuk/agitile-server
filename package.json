@@ -1,7 +1,6 @@
 {
   "name": "agitile-server",
   "version": "1.0.0",
-  "type": "module",
   "main": "index.js",
   "repository": "https://github.com/iliashchuk/agitile-server.git",
   "scripts": {
@@ -13,9 +12,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@types/dotenv": "^8.2.0",
-    "@types/koa-logger": "^3.1.1",
-    "@types/mongoose": "^5.10.5",
     "dotenv": "^9.0.1",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
@@ -31,6 +27,9 @@
     "@types/koa-router": "^7.4.2",
     "@types/koa2-cors": "^2.0.1",
     "@types/node": "^15.0.2",
+    "@types/dotenv": "^8.2.0",
+    "@types/koa-logger": "^3.1.1",
+    "@types/mongoose": "^5.10.5",
     "concurrently": "^6.1.0",
     "nodemon": "1.18.4",
     "ts-node": "^9.1.1",
