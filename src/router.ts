@@ -8,6 +8,7 @@ import {
   getIdPrefix,
 } from './resolvers/idGenerator';
 import { createSprint, getSprints, updateSprint } from './resolvers/sprint';
+import { getGithubAccessTokenFromCode } from './resolvers/githubToken';
 
 const router = new Router();
 
@@ -24,5 +25,7 @@ router.put('/id-prefix', updateIdPrefix);
 router.get('/sprints', getSprints);
 router.post('/sprint', createSprint);
 router.put('/sprint', updateSprint);
+
+router.post('/github-token', getGithubAccessTokenFromCode);
 
 export default router;
