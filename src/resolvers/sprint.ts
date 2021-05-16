@@ -3,7 +3,7 @@ import { IMiddleware } from 'koa-router';
 import { SprintModel, Sprint } from '../models/Sprint';
 
 export const getSprints: IMiddleware = async (ctx) => {
-  ctx.body = await SprintModel.find();
+  ctx.body = await SprintModel.find(ctx.request.query);
   // ctx.body = await SprintModel.find().populate('tickets');
 };
 

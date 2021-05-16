@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Document, Model, Types } from 'mongoose';
 
 export enum TicketType {
   Story = 'Story',
@@ -14,34 +14,40 @@ export enum TicketStatus {
 }
 
 export interface Subtask {
-  _id: string;
+  displayId: string;
   name: string;
   isCompleted: boolean;
 }
 
 export interface Ticket {
-  _id?: string;
+  displayId?: string;
   name: string;
   status: TicketStatus;
   type: TicketType;
   description?: string;
   subtasks?: Subtask[];
   assignee?: string;
+  owner: string;
+  repo: string;
 }
 
-const SubtaskSchema = new Schema({
-  _id: String,
-  name: { type: String, required: true },
-  isCompleted: { type: Boolean, default: true },
-});
+const SubtaskSchema = new Schema(
+  {
+    displayId: String,
+    name: { type: String, required: true },
+    isCompleted: { type: Boolean, default: true },
+  },
+  { id: false }
+);
 
-export interface TicketDocument extends Ticket, Document<string> {
-  _id: string;
+export interface TicketDocument extends Ticket, Document<Types.ObjectId> {
+  displayId: string;
 }
+
 interface TicketModel extends Model<TicketDocument> {}
 
 export const TicketSchema = new Schema<TicketDocument, TicketModel>({
-  _id: String,
+  displayId: String,
   name: { type: String, required: true },
   status: {
     type: String,
@@ -55,7 +61,11 @@ export const TicketSchema = new Schema<TicketDocument, TicketModel>({
   },
   description: String,
   assignee: String,
+  owner: { type: String, required: true },
+  repo: { type: String, required: true },
 });
+
+TicketSchema.index({ owner: 1, repo: 1 });
 
 export const TicketModel = mongoose.model<TicketDocument, TicketModel>(
   'Ticket',

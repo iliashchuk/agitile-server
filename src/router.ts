@@ -8,11 +8,15 @@ import {
   getIdPrefix,
 } from './resolvers/idGenerator';
 import { createSprint, getSprints, updateSprint } from './resolvers/sprint';
+import { createProject, getProject } from './resolvers/project';
 import { getGithubAccessTokenFromCode } from './resolvers/githubToken';
 
 const router = new Router();
 
 router.get('/ping', lifeCheck);
+
+router.get('/project', getProject);
+router.post('/project', createProject);
 
 router.get('/tickets', getTickets);
 router.post('/ticket', createTicket);

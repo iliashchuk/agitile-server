@@ -1,5 +1,5 @@
 import axios from 'axios';
-import queryString from 'query-string';
+import querystring from 'query-string';
 
 const { GITHUB_APP_ID, GITHUB_APP_SECRET } = process.env;
 
@@ -17,7 +17,7 @@ export const getAccessTokenFromCode = async (code: string) => {
   /**
    * GitHub returns data as a string we must parse.
    */
-  const parsedData = queryString.parse(data);
+  const parsedData = querystring.parse(data);
 
   if (parsedData.error)
     throw new Error(

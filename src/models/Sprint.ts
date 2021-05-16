@@ -14,6 +14,8 @@ export interface Sprint {
   startDate: Date;
   endDate: Date;
   status: SprintStatus;
+  owner: string;
+  repo: string;
 }
 
 export interface SprintDocument extends Sprint, Document<ObjectId> {
@@ -42,7 +44,11 @@ export const SprintSchema = new Schema<SprintDocument, SprintModel>({
     ref: 'Ticket',
     default: [],
   },
+  owner: { type: String, required: true },
+  repo: { type: String, required: true },
 });
+
+SprintSchema.index({ owner: 1, repo: 1 });
 
 export const SprintModel = mongoose.model<SprintDocument, SprintModel>(
   'Sprint',
