@@ -1,6 +1,12 @@
 import { IMiddleware } from 'koa-router';
 
-import { TicketModel, Ticket, TicketDocument } from '../models/Ticket';
+import { getRandomDateWithinWeekBefore } from '../utils/time';
+import {
+  TicketModel,
+  Ticket,
+  TicketDocument,
+  TicketStatus,
+} from '../models/Ticket';
 import { generateProjectDisplayID } from '../models/Project';
 
 const generateSubtaskId = async (ticket: Ticket) => {
@@ -41,7 +47,22 @@ export const updateTicket: IMiddleware = async (ctx) => {
 
   await generateSubtaskId(ticketInput);
 
-  ctx.body = await TicketModel.findByIdAndUpdate(ticketInput._id, ticketInput, {
-    new: true,
-  });
+  const ticket = await TicketModel.findOne({ _id: ticketInput._id });
+
+  if (!ticket) {
+    return;
+  }
+
+  if (
+    ticket.status !== TicketStatus.Done &&
+    ticketInput.status === TicketStatus.Done
+  ) {
+    // ticket.completedAt = new Date().toJSON();
+    ticket.completedAt = getRandomDateWithinWeekBefore().toJSON();
+  }
+
+  ticket.set(ticketInput);
+  await ticket.save();
+
+  ctx.body = ticket;
 };

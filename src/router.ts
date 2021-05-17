@@ -7,7 +7,12 @@ import {
   getGeneratedId,
   getIdPrefix,
 } from './resolvers/idGenerator';
-import { createSprint, getSprints, updateSprint } from './resolvers/sprint';
+import {
+  createSprint,
+  getSprintPerformance,
+  getSprints,
+  updateSprint,
+} from './resolvers/sprint';
 import { createProject, getProject } from './resolvers/project';
 import { getGithubAccessTokenFromCode } from './resolvers/githubToken';
 
@@ -27,6 +32,7 @@ router.get('/id-prefix', getIdPrefix);
 router.put('/id-prefix', updateIdPrefix);
 
 router.get('/sprints', getSprints);
+router.get('/sprint-performance', getSprintPerformance);
 router.post('/sprint', createSprint);
 router.put('/sprint', updateSprint);
 

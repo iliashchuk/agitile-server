@@ -22,7 +22,7 @@ export interface SprintDocument extends Sprint, Document<ObjectId> {
   tickets: TicketDocument['_id'][];
 }
 export interface SprintPopulateDocument extends Sprint, Document<ObjectId> {
-  tickets: Sprint;
+  tickets: TicketDocument[];
 }
 
 interface SprintModel extends Model<SprintDocument> {}

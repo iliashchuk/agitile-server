@@ -27,6 +27,8 @@ export interface Ticket {
   description?: string;
   subtasks?: Subtask[];
   assignee?: string;
+  completedAt?: string;
+  storyPoints: number;
   owner: string;
   repo: string;
 }
@@ -59,6 +61,8 @@ export const TicketSchema = new Schema<TicketDocument, TicketModel>({
     type: [SubtaskSchema],
     default: [],
   },
+  completedAt: String,
+  storyPoints: { type: Number, required: true },
   description: String,
   assignee: String,
   owner: { type: String, required: true },

@@ -1,6 +1,7 @@
 import { IMiddleware } from 'koa-router';
+import { eachDayOfInterval, isAfter } from 'date-fns';
 
-import { SprintModel, Sprint } from '../models/Sprint';
+import { SprintModel, Sprint, SprintPopulateDocument } from '../models/Sprint';
 
 export const getSprints: IMiddleware = async (ctx) => {
   ctx.body = await SprintModel.find(ctx.request.query);
@@ -25,4 +26,50 @@ export const updateSprint: IMiddleware = async (ctx, next) => {
   ctx.body = await SprintModel.findByIdAndUpdate(sprintInput._id, sprintInput, {
     new: true,
   });
+};
+
+export const getSprintPerformance: IMiddleware = async (ctx) => {
+  const sprint = await SprintModel.findOne(ctx.request.query).populate(
+    'tickets'
+  );
+
+  if (!sprint) {
+    ctx.throw({ code: 404 });
+    return;
+  }
+
+  const {
+    startDate,
+    endDate,
+    tickets,
+  } = (sprint as unknown) as SprintPopulateDocument;
+
+  const sprintDays = eachDayOfInterval({
+    start: new Date(startDate),
+    end: new Date(endDate),
+  });
+
+  const performanceByDay = sprintDays.reduce((performance, date) => {
+    const completedSp = tickets.reduce((completedSp, ticket) => {
+      if (ticket.completedAt && isAfter(date, new Date(ticket.completedAt))) {
+        completedSp += ticket.storyPoints;
+      }
+      return completedSp;
+    }, 0);
+
+    performance[date.toJSON()] = completedSp;
+    return performance;
+  }, {} as Record<string, number>);
+
+  const totalStoryPoints = tickets.reduce((totalSP, ticket) => {
+    totalSP += ticket.storyPoints;
+    return totalSP;
+  }, 0);
+
+  ctx.body = {
+    startDate,
+    endDate,
+    totalStoryPoints,
+    performanceByDay,
+  };
 };
