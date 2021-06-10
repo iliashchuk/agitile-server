@@ -5,7 +5,6 @@ import { SprintModel, Sprint, SprintPopulateDocument } from '../models/Sprint';
 
 export const getSprints: IMiddleware = async (ctx) => {
   ctx.body = await SprintModel.find(ctx.request.query);
-  // ctx.body = await SprintModel.find().populate('tickets');
 };
 
 export const createSprint: IMiddleware = async (ctx) => {
