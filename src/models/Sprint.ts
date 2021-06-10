@@ -38,7 +38,10 @@ export const SprintSchema = new Schema<SprintDocument, SprintModel>({
     type: Date,
     default: new Date(),
   },
-  endDate: Date,
+  endDate: {
+    type: Date,
+    default: new Date(),
+  },
   tickets: {
     type: [String],
     ref: 'Ticket',

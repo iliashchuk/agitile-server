@@ -9,7 +9,7 @@ import {
 } from '../models/Ticket';
 import { generateProjectDisplayID } from '../models/Project';
 
-const generateSubtaskId = async (ticket: Ticket) => {
+const generateAndSetSubtaskIds = async (ticket: Ticket) => {
   if (ticket.subtasks) {
     const { repo, owner } = ticket;
     for (const subtask of ticket.subtasks) {
@@ -38,14 +38,14 @@ export const createTicket: IMiddleware = async (ctx) => {
   const { owner, repo } = ticket;
 
   ticket.displayId = (await generateProjectDisplayID({ owner, repo })) || '';
-  await generateSubtaskId(ticket);
+  await generateAndSetSubtaskIds(ticket);
   ctx.body = await ticket.save();
 };
 
 export const updateTicket: IMiddleware = async (ctx) => {
   const ticketInput = <TicketDocument>ctx.request.body;
 
-  await generateSubtaskId(ticketInput);
+  await generateAndSetSubtaskIds(ticketInput);
 
   const ticket = await TicketModel.findOne({ _id: ticketInput._id });
 

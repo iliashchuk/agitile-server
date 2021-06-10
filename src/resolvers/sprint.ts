@@ -42,6 +42,7 @@ export const getSprintPerformance: IMiddleware = async (ctx) => {
     startDate,
     endDate,
     tickets,
+    name,
   } = (sprint as unknown) as SprintPopulateDocument;
 
   const sprintDays = eachDayOfInterval({
@@ -69,6 +70,7 @@ export const getSprintPerformance: IMiddleware = async (ctx) => {
   ctx.body = {
     startDate,
     endDate,
+    name,
     totalStoryPoints,
     performanceByDay,
   };
