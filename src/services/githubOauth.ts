@@ -13,9 +13,7 @@ export const getAccessTokenFromCode = async (code: string) => {
       code,
     },
   });
-  /**
-   * GitHub returns data as a string we must parse.
-   */
+
   const parsedData = querystring.parse(data);
 
   if (parsedData.error)
