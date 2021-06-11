@@ -57,7 +57,6 @@ export const updateTicket: IMiddleware = async (ctx) => {
     ticket.status !== TicketStatus.Done &&
     ticketInput.status === TicketStatus.Done
   ) {
-    // ticket.completedAt = new Date().toJSON();
     ticket.completedAt = getRandomDateWithinWeekBefore().toJSON();
   }
 
